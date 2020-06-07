@@ -1,5 +1,8 @@
 package com.example.myapplication.db;
 
+import android.app.usage.UsageEvents;
+
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -23,5 +26,8 @@ public interface MyDao {
 
     @Query("select * from SavedPositions")
     List<SavedPositions> getPositions();
+
+    @Query("SELECT * FROM SavedPositions WHERE id = :ArticleID")
+    SavedPositions getById(String ArticleID);
 
 }
