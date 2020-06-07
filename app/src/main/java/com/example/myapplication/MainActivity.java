@@ -93,11 +93,22 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.OnRec
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        save();
+    }
+
+    private void save() {
         RecyclerView recyclerView = findViewById(R.id.rv);
         position = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
 
 
         savedPositions = new SavedPositions(ArticleID, position);
         dao.updatePosition(savedPositions);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        save();
     }
 }
