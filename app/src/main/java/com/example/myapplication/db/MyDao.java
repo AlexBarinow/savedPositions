@@ -14,15 +14,18 @@ import java.util.List;
 @Dao
 public interface MyDao {
 
-    // Четыре метода выполняющие операции вставки, удаления, обновления и чтения записей
+
     @Insert
-    void addPosition(SavedPositions person);
+    void addPosition(SavedPositions position);
 
     @Delete
-    void removePosition(SavedPositions person);
+    void removePosition(SavedPositions position);
 
     @Update
-    void updatePosition(SavedPositions person);
+    void updatePosition(SavedPositions position);
+
+    @Query("SELECT * FROM SavedPositions WHERE id =:id")
+    LiveData<SavedPositions> getTask(int id);
 
     @Query("select * from SavedPositions")
     List<SavedPositions> getPositions();

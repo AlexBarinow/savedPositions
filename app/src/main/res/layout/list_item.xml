@@ -2,8 +2,11 @@
     android:layout_height="145dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/list_item"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="6dp"
     android:elevation="16dp"
+    app:cardMaxElevation="40dp"
+    android:animateLayoutChanges="true"
     android:layout_marginStart="30dp"
     android:layout_marginTop="8dp"
 

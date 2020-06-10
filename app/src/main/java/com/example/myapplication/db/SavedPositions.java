@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity()
-public class SavedPositions {
+public class SavedPositions implements Serializable {
 
     @PrimaryKey(autoGenerate = false)
     @NonNull
@@ -26,4 +28,11 @@ public class SavedPositions {
         return position;
     }
 
+    public void setId(@NonNull String id) {
+        this.id = id;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 }

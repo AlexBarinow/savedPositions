@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
@@ -17,8 +18,6 @@ import com.example.myapplication.db.MyDao;
 import com.example.myapplication.db.MyDatabase;
 import com.example.myapplication.db.SavedPositions;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +28,9 @@ public class ChooseActivity extends AppCompatActivity implements DataAdapter.OnR
     MyDatabase db;
     MyDao dao;
     SavedPositions savedPositions;
+
+    SavedPositionsRepository savedPositionsRepository = new
+            SavedPositionsRepository(getApplicationContext());
     List<Anything> listOfArtilcles = new ArrayList<>();
     DataAdapter listOfArtilclesAdapter;
     public final static String EXTRA_MESSAGE = "EXTRA_MESSAGE";
@@ -50,8 +52,6 @@ public class ChooseActivity extends AppCompatActivity implements DataAdapter.OnR
         initiateList();
         listOfArtilclesAdapter = new DataAdapter(this, listOfArtilcles, this);
 
-
-
         recyclerView.setAdapter(listOfArtilclesAdapter);
     }
 
@@ -72,12 +72,6 @@ public class ChooseActivity extends AppCompatActivity implements DataAdapter.OnR
         sendArticleID();
     }
 
-    public void makeToast(String string){
-
-        Toast.makeText(this, string, Toast.LENGTH_LONG).show();
-    }
-
-
     @Override
     public void onBackPressed() {
 
@@ -86,4 +80,8 @@ public class ChooseActivity extends AppCompatActivity implements DataAdapter.OnR
         dao = db.getMyDao();
         savedPositions = dao.getById(ArticleID);
     }
+
+
+
+
 }
