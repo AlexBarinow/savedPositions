@@ -25,7 +25,7 @@ public interface MyDao {
     void updatePosition(SavedPositions position);
 
     @Query("SELECT * FROM SavedPositions WHERE id =:id")
-    LiveData<SavedPositions> getTask(int id);
+    LiveData<SavedPositions> getTask(String id);
 
     @Query("select * from SavedPositions")
     List<SavedPositions> getPositions();

@@ -3,40 +3,23 @@ package com.example.myapplication;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 
+
+
 import com.example.myapplication.db.MyDatabase;
 import com.example.myapplication.db.SavedPositions;
-
-import java.util.List;
 
 public class SavedPositionsRepository {
 
 
-    private String DB_NAME = "db";
+    private String DB_NAME = "bech";
 
     private MyDatabase myDatabase;
     public SavedPositionsRepository(Context context) {
-        myDatabase = Room.databaseBuilder(context, MyDatabase.class, DB_NAME).build();
-    }
-
-    /*public void insertTask(String title,
-                            String description) {
-
-        insertTask(title, description, false, null);
-    }*/
-
-    public void insertPosition(String id,
-                               int  position) {
-
-        SavedPositions savedPositions = new SavedPositions(id, position);
-        savedPositions.setId(id);
-        savedPositions.setPosition(position);
-
-        insertPosition(savedPositions);
+        myDatabase = Room.databaseBuilder(context, MyDatabase.class, DB_NAME).allowMainThreadQueries().build();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -44,7 +27,12 @@ public class SavedPositionsRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                myDatabase.getMyDao().addPosition(savedPositions);
+                try{
+                    myDatabase.getMyDao().addPosition(savedPositions);
+                }
+                catch (Exception ex){
+                    updPosition(savedPositions);
+                }
                 return null;
             }
         }.execute();
@@ -61,9 +49,9 @@ public class SavedPositionsRepository {
         }.execute();
     }
 
-    @SuppressLint("StaticFieldLeak")
-    public void delTask(final int id) {
-        final LiveData<SavedPositions> task = getTask(id);
+    /*@SuppressLint("StaticFieldLeak")
+    public void delTask(final String id) {
+        final LiveData<SavedPositions> task = getPosition(id);
         if(task != null) {
             new AsyncTask<Void, Void, Void>() {
                 @Override
@@ -73,7 +61,7 @@ public class SavedPositionsRepository {
                 }
             }.execute();
         }
-    }
+    }*/
 
     @SuppressLint("StaticFieldLeak")
     public void delTask(final SavedPositions savedPositions) {
@@ -86,8 +74,22 @@ public class SavedPositionsRepository {
         }.execute();
     }
 
-    public LiveData<SavedPositions> getTask(int id) {
-        return myDatabase.getMyDao().getTask(id);
+    public  LiveData<SavedPositions> getPosition(String ArticleID) {
+        try{
+
+                    return myDatabase.getMyDao().getTask(ArticleID);
+
+
+
+        }
+        catch (Exception ex){
+            return null;
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public SavedPositions getById(final String ArticleID){
+                return  myDatabase.getMyDao().getById(ArticleID);
     }
 
     /*public LiveData<List<ContactsContract.CommonDataKinds.Note>> getTasks() {

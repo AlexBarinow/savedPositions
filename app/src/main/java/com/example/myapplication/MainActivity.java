@@ -4,19 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
-import android.animation.AnimatorInflater;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.myapplication.db.SavedPositions;
 import com.example.myapplication.db.MyDao;
 import com.example.myapplication.db.MyDatabase;
-import com.example.myapplication.DataAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.OnRec
 
     MyDatabase db;
     MyDao dao;
-    static SavedPositions savedPositions;
+     SavedPositions savedPositions;
     int position = 0;
     public String ArticleID;
     public final static String EXTRA_MESSAGE = "EXTRA_MESSAGE";
@@ -47,37 +42,81 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.OnRec
         ArticleID = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
 
-        databaseInitiation();
+       // databaseInitiation();
         setInitialData();
 
         final RecyclerView recyclerView = findViewById(R.id.rv);
         dataAdapter = new DataAdapter(this, anythings, this);
         recyclerView.setAdapter(dataAdapter);
 
-        restorePosition();
+        //restorePosition();
+
+
+
+        SavedPositionsRepository savedPositionsRepository =
+                new SavedPositionsRepository(getApplicationContext());
+
+
+
+        SavedPositions savedPositions1 = new SavedPositions(ArticleID, 555);
+
+        int a = 0;
+
+
+        for (int i =0; i <300;i++){
+            savedPositions1 = new SavedPositions("test", i);
+
+        savedPositionsRepository.insertPosition(savedPositions1);}
+
+
+
+        int ab  = -1;
+
+
+
+        savedPositions = savedPositionsRepository.getPosition("test").getValue();
+        //ab = savedPositions.getPosition();
+
+        makeToast(String.valueOf(ab));
+
+
+
 
     }
 
     private void databaseInitiation() {
-        db = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "db")
-                .allowMainThreadQueries().build();
-        dao = db.getMyDao();
+
+        /*
+        SavedPositionsRepository savedPositionsRepository = new
+                SavedPositionsRepository(getApplicationContext());
 
         savedPositions = new SavedPositions(ArticleID, position);
-        try {
-            dao.addPosition(savedPositions);
-        }
+            savedPositionsRepository.insertPosition(savedPositions);
 
-        catch (Exception ex){
-        }
+
+
+            savedPositions = savedPositionsRepository.getTask(ArticleID).getValue();
+
+            String a = String.valueOf(savedPositions.getPosition());
+            Toast.makeText(this, a, Toast.LENGTH_LONG);*/
+
     }
 
     private void restorePosition() {
         try {
+            SavedPositionsRepository savedPositionsRepository = new
+                    SavedPositionsRepository(getApplicationContext());
             RecyclerView rv = findViewById(R.id.rv);
-            rv.scrollToPosition(dao.getById(ArticleID).getPosition());
+
+            //savedPositions = savedPositionsRepository.getTask(ArticleID).getValue();
+            //Toast.makeText(this, String.valueOf(savedPositions.getPosition()), Toast.LENGTH_SHORT);
+          //  rv.scrollToPosition(/*dao.getById(ArticleID).getPosition()*/ savedPositionsRepository.getTask(ArticleID).getValue().getPosition());   // here async
         }
-        catch (Exception ex){}
+        catch (Exception ex){
+
+            Toast.makeText(this, "Err in restorePosition" + ex.getMessage(), Toast.LENGTH_LONG).show();
+
+        }
     }
 
     private void setInitialData(){
@@ -92,8 +131,17 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.OnRec
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        try{
+            save();
 
-        save();
+        }
+        catch (Exception ex){
+
+            Toast.makeText(this, "Err in onSaveInstanceState" + ex.getMessage(), Toast.LENGTH_LONG).show();
+
+        }
+
+
     }
 
     private void save() {
@@ -102,13 +150,33 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.OnRec
 
 
         savedPositions = new SavedPositions(ArticleID, position);
-        dao.updatePosition(savedPositions);
+        //dao.updatePosition(savedPositions);
+        SavedPositionsRepository savedPositionsRepository = new
+                SavedPositionsRepository(getApplicationContext());
+        savedPositionsRepository.updPosition(savedPositions);
+
+
+
+
+    }
+
+    public void makeToast(String str){
+        Toast.makeText(this, str, Toast.LENGTH_LONG).show();
     }
 
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        save();
+        try{
+            save();
+
+        }
+        catch (Exception ex){
+
+            Toast.makeText(this, "Err in save" + ex.getMessage(), Toast.LENGTH_LONG).show();
+
+        }
+
     }
 }

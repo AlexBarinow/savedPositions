@@ -24,13 +24,6 @@ import java.util.List;
 public class ChooseActivity extends AppCompatActivity implements DataAdapter.OnRecycleListener {
 
 
-
-    MyDatabase db;
-    MyDao dao;
-    SavedPositions savedPositions;
-
-    SavedPositionsRepository savedPositionsRepository = new
-            SavedPositionsRepository(getApplicationContext());
     List<Anything> listOfArtilcles = new ArrayList<>();
     DataAdapter listOfArtilclesAdapter;
     public final static String EXTRA_MESSAGE = "EXTRA_MESSAGE";
@@ -63,7 +56,7 @@ public class ChooseActivity extends AppCompatActivity implements DataAdapter.OnR
 
     public void sendArticleID(){
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(  EXTRA_MESSAGE, ArticleID + "kjd");
+        intent.putExtra( EXTRA_MESSAGE, ArticleID);
         startActivity(intent);
     }
 
@@ -74,11 +67,13 @@ public class ChooseActivity extends AppCompatActivity implements DataAdapter.OnR
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
 
-        db = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "db")
+
+        /*db = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "db")
                 .allowMainThreadQueries().build();
         dao = db.getMyDao();
-        savedPositions = dao.getById(ArticleID);
+        savedPositions = dao.getById(ArticleID);*/
     }
 
 
