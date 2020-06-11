@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.OnRec
 
 
         for (int i =0; i <300;i++){
-            savedPositions1 = new SavedPositions("test", i);
+            savedPositions1 = new SavedPositions("test1", i);
 
         savedPositionsRepository.insertPosition(savedPositions1);}
 
@@ -74,8 +74,8 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.OnRec
 
 
 
-        savedPositions = savedPositionsRepository.getPosition("test").getValue();
-        //ab = savedPositions.getPosition();
+        savedPositions = savedPositionsRepository.getPosition("test1", getApplicationContext()).getValue();
+        ab = savedPositions.getPosition();
 
         makeToast(String.valueOf(ab));
 
