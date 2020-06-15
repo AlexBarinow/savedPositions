@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.example.myapplication.db.SavedPositions;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.OnRec
         int a = 0;
 
 
+
         for (int i =0; i <300;i++){
             savedPositions1 = new SavedPositions("test1", i);
 
@@ -73,8 +75,17 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.OnRec
         int ab  = -1;
 
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         savedPositions = savedPositionsRepository.getPosition("test1", getApplicationContext()).getValue();
+
+
+
+
         ab = savedPositions.getPosition();
 
         makeToast(String.valueOf(ab));

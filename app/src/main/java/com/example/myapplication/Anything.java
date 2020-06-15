@@ -1,12 +1,11 @@
 package com.example.myapplication;
 
-import org.w3c.dom.Text;
-
-public class Anything {
+public class Anything  {
 
     private String text;
     private String name;
 
+    public Anything(){}
     public Anything(String text, String name){
         this.name = name;
         this.text = text;

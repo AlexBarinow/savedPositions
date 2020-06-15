@@ -23,23 +23,23 @@ public class SavedPositionsRepository {
         myDatabase = Room.databaseBuilder(context, MyDatabase.class, DB_NAME).allowMainThreadQueries().build();
     }
 
-    @SuppressLint("StaticFieldLeak")
+   // @SuppressLint("StaticFieldLeak")
     public void insertPosition(final SavedPositions savedPositions) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.CUPCAKE) {
+       /* if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.CUPCAKE) {
             new AsyncTask<Void, Void, Void>() {
                 @Override
-                protected Void doInBackground(Void... voids) {
+                protected Void doInBackground(Void... voids) {*/
                     try{
                         myDatabase.getMyDao().addPosition(savedPositions);
                     }
                     catch (Exception ex){
                         updPosition(savedPositions);
                     }
-                    return null;
-                }
+                    //return null;
+                }/*
             }.execute();
-        }
-    }
+        }*/
+    //}
 
     @SuppressLint("StaticFieldLeak")
     public void updPosition(final SavedPositions savedPositions) {
